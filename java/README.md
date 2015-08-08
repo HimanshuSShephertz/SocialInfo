@@ -21,8 +21,3 @@ Run your Custom Code
 2. For your ease, you can also run your deployed custom code through above steps using ant command line available in this sample using command <ant run>. You will be asked to enter the name of deployed custom code, aftre entering the name you will be able to see the response obtained from your deployed custom code.
 3. If you are deploying through ant command line, you have to give the value of input JSON inside build.properties in <jsonRequestBody> property value.
 
-System Requirements
-====================
-1. Java 1.6/1.7
-2. Ant Version 1.8 or lower
-

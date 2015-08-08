@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="core" default="jar">
+
+    <!-- The local.properties file is created and updated by the 'android' tool.
+         It contains the path to the SDK. It should *NOT* be checked in in Version
+         Control Systems. -->
+    <property file="build.properties" />
+
+<path id="main.classpath">
+ <pathelement location="bin"/>
+    <fileset dir="lib">
+        <include name="*.jar"/>
+    </fileset>
+ </path>
+
+   	
+	<target name="compile" depends="clean" > 
+	
+		 <javac srcdir="src" debug="true"
+		           destdir="bin"
+		           source="1.6"
+		           classpathref="main.classpath" includes="**/*.java"  />
+		<javac srcdir="test" debug="true"
+		           destdir="bin"
+		           source="1.6"
+		           classpathref="main.classpath" includes="**/*.java"  />
+	</target>
+	
+	
+	
+	 <target name="clean" description="Removes output files ">
+	      
+	        <delete dir="bin/com" verbose="true" />
+			<delete dir="bin/classes" verbose="true" />
+	    </target>
+		
+	<target name="jar" depends="compile" > 
+	 <input
+			message="Enter Name of Custom Code App"
+			addproperty="jarFileName"
+			defaultvalue="MyCustomCode"
+		/>
+	 <jar destfile="${jarFileName}.jar" >
+		
+	      <fileset dir="bin">
+			<include name="com/shephertz/**/*.class" />
+			<include name="com/shephertz/**/*.properties" />
+			
+	      </fileset>
+	    </jar>
+	</target>
+	
+	<target name="deploy" depends="jar" >
+		<echo>Java/JVM version: ${ant.java.version}</echo>
+		 <input
+			message="Enter Name of Custom Code App"
+			addproperty="jarFileName"
+			defaultvalue="MyCustomCode"
+		/>
+		 <java classname="com.myapp.helper.AntHelper"
+           fork="true" 
+           failonerror="true"
+           >
+         <arg value="${apiKey}"/>
+		 <arg value="${secretKey}"/>
+		 <arg value="${jarFileName}"/>
+		 <arg value="upload"/>
+         <classpath>
+			<pathelement path="bin"/>
+			<pathelement path="."/>
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+			<pathelement location="classes"/>
+		</classpath>
+       </java>
+	</target>
+	
+		<target name="run" >
+		 <input
+			message="Enter Name of Custom Code App"
+			addproperty="jarFileName"
+			defaultvalue="MyCustomCode"
+		/>
+		 <java classname="com.myapp.helper.AntHelper"
+           fork="true" 
+           failonerror="true"
+           >
+         <arg value="${apiKey}"/>
+		 <arg value="${secretKey}"/>
+		 <arg value="${jarFileName}"/>
+		 <arg value="run"/>
+		 <arg value="${jsonRequestBody}"/>
+         <classpath>
+			<pathelement path="bin"/>
+			<pathelement path="."/>
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+			<pathelement location="classes"/>
+		</classpath>
+       </java>
+	</target>
+	
+	
+	
+		<target name="undeploy" >
+		 <input
+			message="Enter Name of Custom Code App"
+			addproperty="jarFileName"
+			defaultvalue="MyCustomCode"
+		/>
+		 <java classname="com.myapp.helper.AntHelper"
+           fork="true" 
+           failonerror="true"
+           >
+		 <arg value="${apiKey}"/>
+		 <arg value="${secretKey}"/>
+		 <arg value="${jarFileName}"/>
+		 <arg value="undeploy"/>
+         <classpath>
+			<pathelement path="bin"/>
+			<pathelement path="."/>
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+			<pathelement location="classes"/>
+		</classpath>
+       </java>
+	</target>
+</project>
